@@ -14,7 +14,6 @@ warnings.filterwarnings("ignore")
 # Load the dataset
 data = pd.read_csv("C:/Users/uumai/OneDrive/Desktop/Mental-Health-Prediction-using-Machine-Learning-Algorithms/Web page/mental_health.csv")
 
-
 # Define lists for gender mapping
 male_str = ["male", "m", "male-ish", "maile", "mal", "male (cis)", "make", "male ", "man", "msle", "mail", "malr", "cis man", "Cis Male", "cis male"]
 trans_str = ["trans-female", "something kinda male?", "queer/she/they", "non-binary", "nah", "all", "enby", "fluid", "genderqueer", "androgyne", "agender", 
@@ -40,14 +39,14 @@ data['Gender'] = data['Gender'].map({'male': 0, 'female': 1, 'trans': 2})
 data['family_history'] = data['family_history'].map({'No': 0, 'Yes': 1})
 data['treatment'] = data['treatment'].map({'No': 0, 'Yes': 1})
 
-# Convert to numpy array
-data = np.array(data)
-
 # Prepare the features (X) and target (y) variables
-X = data[1:, 1:-1]
-y = data[1:, -1]
-y = y.astype('int')
-X = X.astype('int')
+# Ensure you are selecting the correct columns: age, gender, and family history
+X = data[['Age', 'Gender', 'family_history']].values  # Only select the relevant 3 columns
+y = data['treatment'].values  # Target column
+
+# Convert the arrays to integer type
+X = X.astype(int)
+y = y.astype(int)
 
 # Split the data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)

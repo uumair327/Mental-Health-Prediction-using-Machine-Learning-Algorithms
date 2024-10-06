@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1.0"
     />
-    <title>Mental Health Predictor.</title>
+    <title>Mental Health Predictor</title>
 
     <!-- Use Materialize CSS from CDN -->
     <link
@@ -44,7 +44,12 @@
         </div>
 
         <div class="row">
-          <form action="/predict" method="post" class="col s12">
+          <form
+            action="/predict"
+            method="post"
+            class="col s12"
+            onsubmit="return validateForm()"
+          >
             <div class="row">
               <div class="input-field col s4">
                 <label for="age"><b>Age</b></label>
@@ -53,9 +58,15 @@
                   placeholder="Age"
                   name="Age"
                   id="age"
-                  type="text"
+                  type="number"
+                  min="1"
+                  required
                   class="validate"
                 />
+                <span
+                  class="helper-text"
+                  data-error="Please enter a valid age"
+                ></span>
               </div>
               <div class="input-field col s4">
                 <label for="gender"><b>Gender</b></label>
@@ -63,10 +74,17 @@
                 <input
                   id="gender"
                   name="Gender"
-                  placeholder="Gender"
-                  type="text"
+                  placeholder="Gender (0=Male, 1=Female, 2=Trans)"
+                  type="number"
+                  min="0"
+                  max="2"
+                  required
                   class="validate"
                 />
+                <span
+                  class="helper-text"
+                  data-error="Please enter 0, 1, or 2"
+                ></span>
               </div>
               <div class="input-field col s4">
                 <label for="family_history"><b>Family History</b></label>
@@ -74,10 +92,17 @@
                 <input
                   id="family_history"
                   name="Family_history"
-                  placeholder="Family History"
-                  type="text"
+                  placeholder="Family History (0=No, 1=Yes)"
+                  type="number"
+                  min="0"
+                  max="1"
+                  required
                   class="validate"
                 />
+                <span
+                  class="helper-text"
+                  data-error="Please enter 0 or 1"
+                ></span>
               </div>
             </div>
             <div class="row center">
@@ -98,5 +123,31 @@
       </div>
     </div>
     <br /><br />
+
+    <!-- JavaScript validation function -->
+    <script>
+      function validateForm() {
+        const age = document.getElementById("age").value;
+        const gender = document.getElementById("gender").value;
+        const familyHistory = document.getElementById("family_history").value;
+
+        if (age <= 0 || isNaN(age)) {
+          alert("Please enter a valid age greater than 0.");
+          return false;
+        }
+
+        if (gender < 0 || gender > 2 || isNaN(gender)) {
+          alert("Please enter 0 for Male, 1 for Female, or 2 for Transgender.");
+          return false;
+        }
+
+        if (familyHistory < 0 || familyHistory > 1 || isNaN(familyHistory)) {
+          alert("Please enter 0 for No or 1 for Yes in Family History.");
+          return false;
+        }
+
+        return true;
+      }
+    </script>
   </body>
 </html>
